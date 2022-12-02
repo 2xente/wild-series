@@ -21,7 +21,7 @@ class EpisodeFixtures extends Fixture implements DependentFixtureInterface
          * de te générer toutes les données que tu souhaites
          */
 
-        for($i = 0; $i < 50; $i++) {
+        for($i = 0; $i < 250; $i++) {
             $episode = new Episode();
             //Ce Faker va nous permettre d'alimenter l'instance de Season que l'on souhaite ajouter en base
             $episodeNumber = $faker->numberBetween(1, 10);
@@ -29,7 +29,7 @@ class EpisodeFixtures extends Fixture implements DependentFixtureInterface
             $episode->setTitle($faker->word());
             $episode->setSynopsis($faker->paragraphs(3, true));
 
-            $seasonNumber = $faker->numberBetween(1, 5);
+            $seasonNumber = $faker->numberBetween(1, 24);
             $episode->setSeason($this->getReference('season_'.$seasonNumber));
             $manager->persist($episode);
         }
