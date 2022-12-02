@@ -20,6 +20,7 @@
        <h3> Episode {{ episode.number }} : {{ episode.title }}</h3>
 
         {{ episode.synopsis }}
+            <a href="{{ path('app_program_episode_show', { programId: program.id , seasonId: season.id, episodeId: episode.id }) }}">Voir l'épisode</a>
         {% endfor %}
     </div>
 
