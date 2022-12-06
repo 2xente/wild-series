@@ -33,6 +33,8 @@ class CategoryController extends AbstractController
         if ($form->isSubmitted()) {
             $categoryRepository->save($category, true);
 
+            $this->addFlash('success', 'The new program has been created');
+
             return $this->redirectToRoute('app_category_index');
         }
 
