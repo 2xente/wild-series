@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ form(form) }}
+    <p>
+    {{ form_start(form) }}
+    {{ form_row(form.actors) }}
+    {{ form_end(form) }}
+    </p>
 {% endblock %}
