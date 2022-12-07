@@ -17,6 +17,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             $program->setSynopsis('Lasserre Bixente'. $i);
             $program->setCategory($this->getReference('category_Comédie'));
             $this->addReference('program_'.$i, $program);
+           // $program->addActor($this->getReference('actor_'.$i));
             $manager->persist($program);
         }
         $manager->flush();
