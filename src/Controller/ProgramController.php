@@ -8,12 +8,14 @@ use App\Form\ProgramType;
 use App\Repository\EpisodeRepository;
 use App\Repository\ProgramRepository;
 use App\Repository\SeasonRepository;
+use App\Service\ProgramDuration;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ProgramController extends AbstractController
 {
@@ -30,7 +32,10 @@ class ProgramController extends AbstractController
     #[Route('/program/new', name :'app_program_new')]
     public function new(Request $request, ProgramRepository $programRepository): Response
     {
+
         $program = new Program();
+
+
         $form= $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
 
@@ -45,13 +50,17 @@ class ProgramController extends AbstractController
         return $this->renderForm('program/new.html.twig', ['form' => $form]);
     }
 
-    #[Route('/program/{id}/', requirements : ['id'=>'\d+'], methods : ['GET'], name : 'app_program_show')]
-    public function show(Program $program, SeasonRepository $seasonRepository ): Response
+    #[Route('/program/{id}/', methods : ['GET'], name : 'app_program_show')]
+    public function show(Program $program, SeasonRepository $seasonRepository, ProgramDuration $programDuration ): Response
     {
         $seasons = $seasonRepository->findBy(['program'=> $program]);
 
 
-        return $this->render('program/show.html.twig', ['program' => $program , 'seasons' => $seasons] );
+        return $this->render('program/show.html.twig', [
+            'program' => $program ,
+            'seasons' => $seasons,
+            'programDuration' => $programDuration->calculate($program)
+            ] );
     }
 
     #[Route ('/program/{program}/season/{season}', name: 'app_program_season_show')]
